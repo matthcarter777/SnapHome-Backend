@@ -3,9 +3,9 @@ import { Request, Response } from 'express';
 import PropertyIndexService from '../services/PropertyIndexService';
 import PropertyCreateService from '../services/PropertyCreateService';
 import PropertyShowService from '../services/PropertyShowService';
-import UserDeleteService from '../services/UserDeleteService';
-import UserUpdateService from '../services/UserUpdateService';
 import PropertyUpdateService from '../services/PropertyUpdateService';
+import PropertyDeleteService from '../services/PropertyDeleteService';
+
 
 export default class PropertyController {
 
@@ -68,10 +68,10 @@ export default class PropertyController {
   async delete(request: Request, response: Response) {
     const { id } = request.params;
 
-    const userService = new UserDeleteService();
+    const propertyService = new PropertyDeleteService();
 
-    await userService.execute(id);
+    await propertyService.execute(id);
     
-    return response.status(200).json({message: 'User Deleted'});
+    return response.status(200).json({message: 'Property Deleted'});
   }
 }
