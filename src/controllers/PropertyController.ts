@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 
-import PropertyCreateService from '../services/PropertyCreateService';
-import UserDeleteService from '../services/UserDeleteService';
 import PropertyIndexService from '../services/PropertyIndexService';
-import UserShowService from '../services/UserShowService';
+import PropertyCreateService from '../services/PropertyCreateService';
+import PropertyShowService from '../services/PropertyShowService';
+import UserDeleteService from '../services/UserDeleteService';
 import UserUpdateService from '../services/UserUpdateService';
 
 export default class PropertyController {
@@ -37,11 +37,11 @@ export default class PropertyController {
   async show(request: Request, response: Response) {
     const { id } = request.params;
 
-    const userService = new UserShowService();
+    const propertyService = new PropertyShowService();
 
-    const findUser = await userService.execute(id);
+    const findProperty = await propertyService.execute(id);
     
-    return response.status(200).json(findUser);
+    return response.status(200).json(findProperty);
   }
 
   async update(request: Request, response: Response) {
