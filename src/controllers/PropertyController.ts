@@ -5,6 +5,7 @@ import PropertyCreateService from '../services/PropertyCreateService';
 import PropertyShowService from '../services/PropertyShowService';
 import UserDeleteService from '../services/UserDeleteService';
 import UserUpdateService from '../services/UserUpdateService';
+import PropertyUpdateService from '../services/PropertyUpdateService';
 
 export default class PropertyController {
 
@@ -46,18 +47,22 @@ export default class PropertyController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, email, password } = request.body;
+    const { title, address, city, state, price, description, user_id } = request.body;
 
-    const userService = new UserUpdateService()
+    const propertyService = new PropertyUpdateService();
 
-    const findUser = await userService.execute({
+    const property = await propertyService.execute({
       id,
-      name,
-      email,
-      password
+      title, 
+      address, 
+      city, 
+      state, 
+      price, 
+      description, 
+      user_id
     });
     
-    return response.status(200).json(findUser);
+    return response.status(200).json(property);
   }
 
   async delete(request: Request, response: Response) {
