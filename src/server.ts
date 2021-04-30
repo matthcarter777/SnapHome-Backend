@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
 import http  from 'http';
 
 import router from './routes';
@@ -25,7 +26,6 @@ app.use((err: Error, request: Request, response: Response, _next: NextFunction) 
     message: `Internal server error ${err.message}`,
   });
 });
-
 
 const server = http.createServer(app);
 server.listen(port, () => {

@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
-import UserCreateService from '../services/UserCreateService';
 
+import UserCreateService from '../services/UserCreateService';
+import UserDeleteService from '../services/UserDeleteService';
 import UserIndexService from '../services/UserIndexService';
+import UserShowService from '../services/UserShowService';
+import UserUpdateService from '../services/UserUpdateService';
 
 export default class UserController {
 
@@ -25,5 +28,41 @@ export default class UserController {
     });
     
     return response.status(200).json(findUsers);
+  }
+
+  async show(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const userService = new UserShowService();
+
+    const findUser = await userService.execute(id);
+    
+    return response.status(200).json(findUser);
+  }
+
+  async update(request: Request, response: Response) {
+    const { id } = request.params;
+    const { name, email, password } = request.body;
+
+    const userService = new UserUpdateService()
+
+    const findUser = await userService.execute({
+      id,
+      name,
+      email,
+      password
+    });
+    
+    return response.status(200).json(findUser);
+  }
+
+  async delete(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const userService = new UserDeleteService();
+
+    await userService.execute(id);
+    
+    return response.status(200).json({message: 'User Deleted'});
   }
 }
