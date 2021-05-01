@@ -1,20 +1,18 @@
-import { getCustomRepository } from 'typeorm';
-
-import PropertyRepository from '../repositories/PropertyRepository';
 import { AppError } from './../errors/AppError';
 
+import IPropertyRepository from '../repositories/IPropertyRepository';
+
 class PropertyDeleteService {
+  constructor( private repository: IPropertyRepository) {}
+
   async execute(id: string) {
-
-    const propertyRepository = getCustomRepository(PropertyRepository);
-
-    const property = await propertyRepository.findById(id);
+    const property = await this.repository.findById(id);
 
     if(!property) {
       throw new AppError('Property not already exist!');
     };
 
-    await propertyRepository.remove(property);
+    await this.repository.delete(property.id);
 
     return property;
   }

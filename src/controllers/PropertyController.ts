@@ -89,7 +89,9 @@ export default class PropertyController {
   async delete(request: Request, response: Response) {
     const { id } = request.params;
 
-    const propertyService = new PropertyDeleteService();
+    const propertyService = new PropertyDeleteService(
+      PropertyController.getRepository()
+    );
 
     await propertyService.execute(id);
     
