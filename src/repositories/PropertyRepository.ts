@@ -42,6 +42,12 @@ class PropertyRepository implements IPropertyRepository {
     return property;
   }
 
+  public async save(data: IPropertyDTO): Promise<Property>  {
+    const property = await this.ormRepository.save(data);
+
+    return property;
+  }
+
   public async delete(id: string) {
     const find = await this.ormRepository.findOne({
       where: { id }

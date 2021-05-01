@@ -6,5 +6,6 @@ export default interface IPropertyRepository {
   findById(id: string): Promise<Property| undefined>;
   findByTitle(title: string): Promise<Property| undefined>;
   create(property: IPropertyDTO): Promise<Property>;
-  delete(id: string);
+  save(property: IPropertyDTO): Promise<Property>;
+  delete(id: string): void;
 }

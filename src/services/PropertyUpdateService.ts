@@ -1,7 +1,6 @@
-import { getCustomRepository } from 'typeorm';
-
-import PropertyRepository from '../repositories/PropertyRepository';
 import { AppError } from './../errors/AppError';
+
+import IPropertyRepository from '../repositories/IPropertyRepository';
 
 interface PropertyRequest {
   id: string;
@@ -15,11 +14,10 @@ interface PropertyRequest {
 }
 
 class PropertyUpdateService {
+  constructor( private repository: IPropertyRepository) {}
+
   async execute({ id, title, address, city, state, description, price, user_id }: PropertyRequest) {
-
-    const propertyRepository = getCustomRepository(PropertyRepository);
-
-    const property = await propertyRepository.findById(id);
+    const property = await this.repository.findById(id);
 
     if(!property) {
       throw new AppError('Property not already exist!');
@@ -32,7 +30,7 @@ class PropertyUpdateService {
     property.description = description;
     property.price = price;
 
-    await propertyRepository.save(property);
+    await this.repository.save(property);
     
     return property;
   }

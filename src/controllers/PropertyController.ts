@@ -68,7 +68,9 @@ export default class PropertyController {
     const { id } = request.params;
     const { title, address, city, state, price, description, user_id } = request.body;
 
-    const propertyService = new PropertyUpdateService();
+    const propertyService = new PropertyUpdateService(
+      PropertyController.getRepository()
+    );
 
     const property = await propertyService.execute({
       id,
