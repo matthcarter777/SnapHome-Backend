@@ -20,27 +20,4 @@ describe('UserCreateService', () => {
 
     expect(user).toHaveProperty('id');
   });
-
-  it('Should be able not to authenticate with non exist non user', async () => {
-    const fakeUserRepository = new FakeUserRepository();
-
-    const userCreateService = new UserCreateService(
-      fakeUserRepository
-    );
-    
-    await userCreateService.execute({
-      name: 'User',
-      email: 'user@email.com',
-      password: '123456',
-    });
-
-
-    expect(
-      userCreateService.execute({
-        name: 'User',
-        email: 'user@email',
-        password: '12345'
-      })
-    ).rejects.toBeInstanceOf(AppError);
-  });
 });
