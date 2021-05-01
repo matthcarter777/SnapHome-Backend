@@ -1,15 +1,12 @@
-import { getCustomRepository } from 'typeorm';
-
 import { AppError } from './../errors/AppError';
 
-import UserRepository from '../repositories/UserRepository';
+import IUserRepository from '../repositories/IUserRepository';
 
 class UserIndexService {
+  constructor( private repository: IUserRepository) {}
+  
   async execute() {
-
-    const userRepository = getCustomRepository(UserRepository);
-
-    const user = await userRepository.find();
+    const user = await this.repository.findAll();
 
     if(!user) {
       throw new AppError('No records found', 404);

@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
 
+import IUserRepository from '../repositories/IUserRepository';
+import UserRepository from '../repositories/UserRepository';
+
 import UserCreateService from '../services/UserCreateService';
 import UserDeleteService from '../services/UserDeleteService';
 import UserIndexService from '../services/UserIndexService';
@@ -8,8 +11,20 @@ import UserUpdateService from '../services/UserUpdateService';
 
 export default class UserController {
 
+  private static repository: IUserRepository;
+
+  private static getRepository(): IUserRepository {
+    if (!this.repository) {
+      this.repository = new UserRepository();
+    }
+
+    return this.repository;
+  }
+
   async index(request: Request, response: Response) {
-    const userService = new UserIndexService();
+    const userService = new UserIndexService(
+      UserController.getRepository()
+    );
 
     const findUsers = await userService.execute();
     

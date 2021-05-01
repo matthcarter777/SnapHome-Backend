@@ -55,8 +55,6 @@ class PropertyRepository implements IPropertyRepository {
 
     await this.ormRepository.remove(find);
   }
-
-
 }
 
 export default PropertyRepository; 
