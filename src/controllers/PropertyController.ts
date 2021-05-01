@@ -1,4 +1,3 @@
-import { getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 
 import PropertyIndexService from '../services/PropertyIndexService';
@@ -56,7 +55,9 @@ export default class PropertyController {
   async show(request: Request, response: Response) {
     const { id } = request.params;
 
-    const propertyService = new PropertyShowService();
+    const propertyService = new PropertyShowService(
+      PropertyController.getRepository()
+    );
 
     const findProperty = await propertyService.execute(id);
     

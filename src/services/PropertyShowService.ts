@@ -1,14 +1,12 @@
-import { getCustomRepository } from 'typeorm';
-
-import PropertyRepository from '../repositories/PropertyRepository';
 import { AppError } from './../errors/AppError';
 
+import IPropertyRepository from '../repositories/IPropertyRepository';
+
 class PropertyShowService {
-  async execute(id: string) {
+  constructor( private repository: IPropertyRepository) {}
 
-    const propertyRepository = getCustomRepository(PropertyRepository);
-
-    const property = await propertyRepository.findById(id);
+  async execute(id: string) { 
+    const property = await this.repository.findById(id);
 
     if(!property) {
       throw new AppError('Property not already exist!');
