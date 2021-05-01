@@ -7,6 +7,9 @@ import authConfig from '../config/auth';
 import UserRepository from '../repositories/UserRepository';
 import BCryptHashProvider from '../providers/implementations/BCryptHashProvider';
 
+
+import IUserRepository from '../repositories/IUserRepository';
+
 interface IRequest {
   email: string;
   password: string;
@@ -18,11 +21,12 @@ interface IResponse {
 }
 
 class AuthenticateUserService {
+  constructor( private repository: IUserRepository) {}
+
   public async execute({ email, password }: IRequest ): Promise<IResponse> {
-    const userRepository = getCustomRepository(UserRepository);
     const hasProvider = new BCryptHashProvider();
 
-    const user = await userRepository.findByEmail(email);
+    const user = await this.repository.findByEmail(email);
 
     if (!user) {
       throw new AppError('Incorrect email/password combination.', 401);

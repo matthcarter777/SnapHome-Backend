@@ -1,25 +1,20 @@
-import { getCustomRepository } from 'typeorm';
-
 import { AppError } from './../errors/AppError';
-import UserRepository from '../repositories/UserRepository';
+
+import IUserRepository from '../repositories/IUserRepository';
 
 class UserDeleteService {
+  constructor( private repository: IUserRepository) {}
+
   async execute(id: string) {
-    console.log(id);
-
-    const userRepository = getCustomRepository(UserRepository);
-
-    const user = await userRepository.findById(id);
-
-    console.log(user);
+    const user = await this.repository.findById(id);
 
     if(!user) {
       throw new AppError('User not already exist!');
     };
 
-    await userRepository.remove(user);
+    await this.repository.delete(user.id);
 
-    return user;
+    return;
   }
 
 }

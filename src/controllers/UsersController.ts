@@ -34,7 +34,9 @@ export default class UserController {
   async create(request: Request, response: Response) {
     const { name, email, password } = request.body;
 
-    const userService = new UserCreateService();
+    const userService = new UserCreateService(
+      UserController.getRepository()
+    );
 
     const findUsers = await userService.execute({
       name,
@@ -48,7 +50,9 @@ export default class UserController {
   async show(request: Request, response: Response) {
     const { id } = request.params;
 
-    const userService = new UserShowService();
+    const userService = new UserShowService(
+      UserController.getRepository()
+    );
 
     const findUser = await userService.execute(id);
     
@@ -59,7 +63,9 @@ export default class UserController {
     const { id } = request.params;
     const { name, email, password } = request.body;
 
-    const userService = new UserUpdateService()
+    const userService = new UserUpdateService(
+      UserController.getRepository()
+    )
 
     const findUser = await userService.execute({
       id,
@@ -74,7 +80,9 @@ export default class UserController {
   async delete(request: Request, response: Response) {
     const { id } = request.params;
 
-    const userService = new UserDeleteService();
+    const userService = new UserDeleteService(
+      UserController.getRepository()
+    );
 
     await userService.execute(id);
     

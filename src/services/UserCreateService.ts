@@ -1,9 +1,9 @@
-import { getCustomRepository } from 'typeorm';
-
 import { AppError } from './../errors/AppError';
 
-import UserRepository from '../repositories/UserRepository';
 import BCryptHashProvider from '../providers/implementations/BCryptHashProvider';
+
+import IUserRepository from '../repositories/IUserRepository';
+import IUserDTO from '../dtos/IUserDTO';
 
 interface UserRequest {
   name: string;
@@ -12,12 +12,12 @@ interface UserRequest {
 }
 
 class UserCreateService {
-  async execute({ name,email,password }: UserRequest) {
+  constructor( private repository: IUserRepository) {}
 
-    const userRepository = getCustomRepository(UserRepository);
+  async execute({ name,email,password }: UserRequest) {
     const hashProvider = new BCryptHashProvider();
 
-    const findUser = await userRepository.findByEmail(email);
+    const findUser = await this.repository.findByEmail(email);
 
     if(findUser) {
       throw new AppError('User already exists');
@@ -25,13 +25,13 @@ class UserCreateService {
 
     const hashedPassword = await hashProvider.generateHash(password);
     
-    const user = userRepository.create({
+    const user = {
       name,
       email,
       password: hashedPassword
-    });
+    } as IUserDTO;
 
-    await userRepository.save(user);
+    await this.repository.create(user);
 
     return user;
   }

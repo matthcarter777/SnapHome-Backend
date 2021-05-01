@@ -1,14 +1,12 @@
-import { getCustomRepository } from 'typeorm';
-
-import UserRepository from '../repositories/UserRepository';
 import { AppError } from './../errors/AppError';
 
+import IUserRepository from '../repositories/IUserRepository';
+
 class UserShowService {
+  constructor( private repository: IUserRepository) {}
+
   async execute(id: string) {
-
-    const userRepository = getCustomRepository(UserRepository);
-
-    const user = await userRepository.findById(id);
+    const user = await this.repository.findById(id);
 
     if(!user) {
       throw new AppError('User not already exist!');
