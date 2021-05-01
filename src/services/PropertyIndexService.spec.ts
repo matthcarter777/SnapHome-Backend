@@ -3,8 +3,8 @@ import FakePropertyRepository from '../repositories/fakes/FakePropertyRepository
 import PropertyCreateService from './PropertyCreateService';
 import PropertyIndexService from './PropertyIndexService';
 
-describe('PropertyCreateService', () => {
-  it('Should be able to create a new property', async () => {
+describe('PropertyIndexService', () => {
+  it('Should be able to show all propertys', async () => {
     const fakePropertyRepository = new FakePropertyRepository();
 
     const propertyCreateService = new PropertyCreateService(
