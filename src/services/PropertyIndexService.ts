@@ -1,21 +1,18 @@
-import { getCustomRepository } from 'typeorm';
-
 import { AppError } from './../errors/AppError';
 
-import PropertyRepository from '../repositories/PropertyRepository';
+import IPropertyRepository from '../repositories/IPropertyRepository';
 
 class PropertyIndexService {
+  constructor( private repository: IPropertyRepository) {}
+  
   async execute() {
+    const propertys = await this.repository.findAll();
 
-    const propertyRepository = getCustomRepository(PropertyRepository);
-
-    const property = await propertyRepository.find();
-
-    if(!property) {
+    if(!propertys) {
       throw new AppError('No records found', 404);
     }
 
-    return property;
+    return propertys;
   }
 
 }

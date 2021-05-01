@@ -7,6 +7,7 @@ import router from './routes';
 import { AppError } from './errors/AppError';
 import './database';
 
+
 const app = express();
 
 app.use(express.json());
@@ -20,6 +21,8 @@ app.use((err: Error, request: Request, response: Response, _next: NextFunction) 
       message: err.message
     });
   }
+
+  console.log(err);
 
   return response.status(500).json({
     status: "Error",

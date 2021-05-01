@@ -1,8 +1,7 @@
-import { getCustomRepository } from 'typeorm';
-
 import { AppError } from './../errors/AppError';
 
-import PropertyRepository from '../repositories/PropertyRepository';
+import IPropertyRepository from '../repositories/IPropertyRepository';
+import IPropertyDTO from '../dtos/IPropertyDTO';
 
 interface PropertyRequest {
   title: string;
@@ -14,18 +13,19 @@ interface PropertyRequest {
   user_id: string;
 }
 
-class UserCreateService {
+class PropertyCreateService { 
+
+  constructor( private repository: IPropertyRepository) {}
+
   async execute({ title, address, city, state, description, price, user_id }: PropertyRequest) {
 
-    const propertyRepository = getCustomRepository(PropertyRepository);
-
-    const findProperty = await propertyRepository.findByTitle(title);
+    const findProperty = await this.repository.findByTitle(title);
 
     if(findProperty) {
       throw new AppError('User already exists');
     }
     
-    const property = propertyRepository.create({
+    const property = {
       title, 
       address, 
       city, 
@@ -33,13 +33,11 @@ class UserCreateService {
       description, 
       price, 
       user_id
-    });
+    } as IPropertyDTO ;
 
-    await propertyRepository.save(property);
-
-    return property;
+    return this.repository.create(property);
   }
 
 }
 
-export default UserCreateService;
+export default PropertyCreateService;

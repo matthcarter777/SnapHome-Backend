@@ -7,7 +7,7 @@ import { User } from './User';
 class Property {
   
   @PrimaryColumn()
-  readonly id: string;
+  id: string;
 
   @Column()
   title: string;

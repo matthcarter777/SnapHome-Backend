@@ -1,3 +1,4 @@
+import { getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 
 import PropertyIndexService from '../services/PropertyIndexService';
@@ -5,12 +6,27 @@ import PropertyCreateService from '../services/PropertyCreateService';
 import PropertyShowService from '../services/PropertyShowService';
 import PropertyUpdateService from '../services/PropertyUpdateService';
 import PropertyDeleteService from '../services/PropertyDeleteService';
+import IPropertyRepository from '../repositories/IPropertyRepository';
+import PropertyRepository from '../repositories/PropertyRepository';
 
 
 export default class PropertyController {
 
+  private static repository: IPropertyRepository;
+
+  private static getRepository(): IPropertyRepository {
+    if (!this.repository) {
+      this.repository = new PropertyRepository();
+    }
+
+    return this.repository;
+  }
+
   async index(request: Request, response: Response) {
-    const propertyService = new PropertyIndexService();
+
+    const propertyService = new PropertyIndexService(
+      PropertyController.getRepository()
+    );
 
     const findPropertys = await propertyService.execute();
     
@@ -20,7 +36,9 @@ export default class PropertyController {
   async create(request: Request, response: Response) {
     const { title, address, city, state, price, description, user_id } = request.body;
 
-    const propertyService = new PropertyCreateService();
+    const propertyService = new PropertyCreateService(
+      PropertyController.getRepository()
+    );
 
     const property = await propertyService.execute({
       title, 
