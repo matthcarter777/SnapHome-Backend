@@ -37,27 +37,15 @@ describe('PropertyDeleteService', () => {
     const propertyCreateService = new PropertyCreateService(
       fakePropertyRepository
     );
+
+    const propertyDeleteService = new PropertyDeleteService(
+      fakePropertyRepository
+    );
     
-    await propertyCreateService.execute({
-      title: 'Title Test',
-      description: 'Isert Test',
-      address: 'road 01',
-      city: 'NY',
-      state: 'NY',
-      price: 99,
-      user_id: 'usahsuahsuahs'
-    });
+    const id = 'uagsuasu-asasas-asasa';
 
     expect(
-      propertyCreateService.execute({
-        title: 'Title Test',
-        description: 'Isert Test',
-        address: 'road 01',
-        city: 'NY',
-        state: 'NY',
-        price: 99,
-        user_id: 'usahsuahsuahs'
-      })
+      propertyDeleteService.execute(id)
     ).rejects.toBeInstanceOf(AppError);
   });
 });

@@ -38,7 +38,7 @@ describe('PropertyShowService', () => {
       fakePropertyRepository
     );
 
-    const id = 'uagsuasu-asasas-asasa'
+    const id = 'uagsuasu-asasas-asasa';
 
     expect(
       propertyShowService.execute(id)
