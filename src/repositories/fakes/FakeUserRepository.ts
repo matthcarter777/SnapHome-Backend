@@ -12,25 +12,25 @@ class FakeUserRepository implements IUserRepository {
   }
 
   public async findById(id: string): Promise<User | null> {
-    const findUser = this.users.find(property => property.id === id);
+    const findUser = this.users.find(user => user.id === id);
 
     return findUser;
   }
   
   public async findByEmail(email: string) {
-    const findUser = this.users.find(property => property.email === email);
+    const findUser = this.users.find(user => user.email === email);
 
     return findUser;
   }
 
-  public async create({ name, email, password }: IUserDTO) {
+  public async create({ name, email, password }: IUserDTO): Promise<User> {
     const user = new User();
-    
+
     user.id = uuid();
     user.name = name;
     user.email = email;
     user.password = password;
-
+    
     this.users.push(user);
 
     return user;

@@ -31,12 +31,8 @@ describe('PropertyDeleteService', () => {
     expect(response).toBe(property);
   });
 
-  it('Should not be able to create two property on the same name', async () => {
+  it('Should be able not to delete', async () => {
     const fakePropertyRepository = new FakePropertyRepository();
-
-    const propertyCreateService = new PropertyCreateService(
-      fakePropertyRepository
-    );
 
     const propertyDeleteService = new PropertyDeleteService(
       fakePropertyRepository

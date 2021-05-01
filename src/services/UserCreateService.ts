@@ -31,9 +31,7 @@ class UserCreateService {
       password: hashedPassword
     } as IUserDTO;
 
-    await this.repository.create(user);
-
-    return user;
+    return this.repository.create(user);
   }
 
 }

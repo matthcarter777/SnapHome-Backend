@@ -1,46 +1,43 @@
 import { AppError } from './../errors/AppError';
-
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 
 import UserCreateService from './UserCreateService';
+import UserShowService from './UserShowService';
 
-describe('UserCreateService', () => {
-  it('Should be able to create user', async () => {
+describe('UserShowService', () => {
+  it('Should be able to show user', async () => {
     const fakeUserRepository = new FakeUserRepository();
 
     const userCreateService = new UserCreateService(
       fakeUserRepository
     );
+
+    const userShowService = new UserShowService(
+      fakeUserRepository
+    );
     
-    const user =  await userCreateService.execute({
+    const user = await userCreateService.execute({
       name: 'User',
       email: 'user@email.com',
       password: '123456',
     });
 
-    expect(user).toHaveProperty('id');
+    const response = await userShowService.execute(user.id);
+
+    expect(response).toHaveProperty('id');
   });
 
-  it('Should be able not to authenticate with non exist non user', async () => {
+  it('Should be able to show user', async () => {
     const fakeUserRepository = new FakeUserRepository();
 
-    const userCreateService = new UserCreateService(
+    const userShowService = new UserShowService(
       fakeUserRepository
     );
     
-    await userCreateService.execute({
-      name: 'User',
-      email: 'user@email.com',
-      password: '123456',
-    });
-
+    const id = 'asijas-iasjas';
 
     expect(
-      userCreateService.execute({
-        name: 'User',
-        email: 'user@email',
-        password: '12345'
-      })
+      userShowService.execute(id)
     ).rejects.toBeInstanceOf(AppError);
   });
 });

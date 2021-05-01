@@ -3,12 +3,17 @@ import { AppError } from './../errors/AppError';
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 
 import UserCreateService from './UserCreateService';
+import UserDeleteService from './UserDeleteService';
 
-describe('UserCreateService', () => {
-  it('Should be able to create user', async () => {
+describe('UserDeleteService', () => {
+  it('Should be able to delete user', async () => {
     const fakeUserRepository = new FakeUserRepository();
 
     const userCreateService = new UserCreateService(
+      fakeUserRepository
+    );
+
+    const userDeleteService = new UserDeleteService(
       fakeUserRepository
     );
     
@@ -18,29 +23,22 @@ describe('UserCreateService', () => {
       password: '123456',
     });
 
-    expect(user).toHaveProperty('id');
+    const response = await userDeleteService.execute(user.id);
+
+    expect(response).toBe(undefined);
   });
 
-  it('Should be able not to authenticate with non exist non user', async () => {
+  it('Should be able not to delete', async () => {
     const fakeUserRepository = new FakeUserRepository();
 
-    const userCreateService = new UserCreateService(
+    const userDeleteService = new UserDeleteService(
       fakeUserRepository
     );
-    
-    await userCreateService.execute({
-      name: 'User',
-      email: 'user@email.com',
-      password: '123456',
-    });
 
+    const id = 'asiuhasa-asasasas-asasas'; 
 
     expect(
-      userCreateService.execute({
-        name: 'User',
-        email: 'user@email',
-        password: '12345'
-      })
+      userDeleteService.execute(id)
     ).rejects.toBeInstanceOf(AppError);
   });
 });

@@ -8,10 +8,6 @@ class UserIndexService {
   async execute() {
     const user = await this.repository.findAll();
 
-    if(!user) {
-      throw new AppError('No records found', 404);
-    }
-
     return user;
   }
 
