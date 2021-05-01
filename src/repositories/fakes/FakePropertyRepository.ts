@@ -5,20 +5,20 @@ import { Property } from '../../models/Property';
 import IPropertyRepository from '../IPropertyRepository';
 
 class FakePropertyRepository implements IPropertyRepository {
-  private property: Property[] = [];
+  private propertys: Property[] = [];
   
   public async findAll(): Promise<Property[]> {
-    return this.property;
+    return this.propertys;
   }
 
   public async findById(id: string): Promise<Property | null> {
-    const findProperty = this.property.find(property => property.id === id);
+    const findProperty = this.propertys.find(property => property.id === id);
 
     return findProperty;
   }
   
   public async findByTitle(title: string) {
-    const findProperty = this.property.find(property => property.title === title);
+    const findProperty = this.propertys.find(property => property.title === title);
 
     return findProperty;
   }
@@ -35,9 +35,19 @@ class FakePropertyRepository implements IPropertyRepository {
     property.price = price;
     property.user_id = user_id;
 
-    this.property.push(property);
+    this.propertys.push(property);
 
     return property;
+  }
+  
+  public async save(property: PropertyDTO): Promise<Property> {
+    this.propertys.push(property as Property);
+
+    return property as Property;
+  }
+
+  delete(id: string): void {
+    this.propertys.filter(property => property.id !== id);
   }
 
 }
