@@ -8,10 +8,6 @@ class PropertyIndexService {
   async execute() {
     const propertys = await this.repository.findAll();
 
-    if(!propertys) {
-      throw new AppError('No records found', 404);
-    }
-
     return propertys;
   }
 

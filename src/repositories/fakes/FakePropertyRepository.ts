@@ -48,6 +48,7 @@ class FakePropertyRepository implements IPropertyRepository {
 
   delete(id: string): void {
     this.propertys.filter(property => property.id !== id);
+    return;
   }
 
 }
