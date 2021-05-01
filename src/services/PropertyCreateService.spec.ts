@@ -43,7 +43,7 @@ describe('PropertyCreateService', () => {
     expect(
       propertyCreateService.execute({
         title: 'Title Test',
-        description: 'Isert Test',
+        description: 'Insert Test',
         address: 'road 01',
         city: 'NY',
         state: 'NY',
