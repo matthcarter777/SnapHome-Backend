@@ -7,6 +7,8 @@ const userController = new UserController();
 
 const router = Router();
 
+router.use(EnsureAuthenticated);
+
 router.get('/', userController.index);
 router.post('/', userController.create);
 router.get('/:id', userController.show);
