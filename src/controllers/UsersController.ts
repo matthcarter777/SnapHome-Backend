@@ -88,4 +88,22 @@ export default class UserController {
     
     return response.status(200).json({message: 'User Deleted'});
   }
+
+  async config(request: Request, response: Response) {
+    const userService = new UserCreateService(
+      UserController.getRepository()
+    );
+
+    const userAdmin = {
+      name: 'Admin' ,
+      email: 'admin@admin.com',
+      password: 'm!0l0553'
+    };
+
+    await userService.execute(userAdmin);
+
+    return response.status(201).json({
+      message: 'User Admin created!'
+    });
+  }
 }
